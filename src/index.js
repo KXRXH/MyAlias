@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
-import store from '../../MyAlias/src/store/store';
 import {DevSupport} from '@react-buddy/ide-toolbox';
 import {ComponentPreviews, useInitial} from './dev';
+import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

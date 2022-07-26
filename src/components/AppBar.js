@@ -1,5 +1,5 @@
 import {
-  AppBar, FormControlLabel,
+  AppBar, Box, FormControlLabel, IconButton,
   Switch,
   Toolbar,
   Typography,
@@ -9,6 +9,7 @@ import {setThemeState} from '../store/actions';
 import {capitalizeFirstLetter, GetRandomRainbowColor} from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
+import {AccountCircle} from '@mui/icons-material';
 
 export function AliasAppBar() {
   const [nameColor, setNameColor] = useState('inherit');
@@ -32,20 +33,28 @@ export function AliasAppBar() {
                 GetRandomRainbowColor() :
                 'inherit');
           }}>Alias</Typography>
-          <FormControlLabel
-              value="bottom"
-              sx={{
-                marginLeft: 'auto',
-                display: 'flex',
-              }}
-              control={<Switch
-                  color="secondary"
-                  checked={currentTheme === 'dark'}
-                  onChange={ChangeTheme}
-                  inputProps={{'aria-label': 'controlled'}}
-              />}
-              label={capitalizeFirstLetter(currentTheme)}
-              labelPlacement="start"/>
+          <Box sx={{
+            display: 'flex',
+            marginLeft: 'auto',
+          }}>
+            <IconButton color='inherit'>
+              <AccountCircle/>
+            </IconButton>
+            <FormControlLabel
+                value="bottom"
+                sx={{
+                  marginLeft: '10px',
+                  alignItems: 'center',
+                }}
+                control={<Switch
+                    color="secondary"
+                    checked={currentTheme === 'dark'}
+                    onChange={ChangeTheme}
+                    inputProps={{'aria-label': 'controlled'}}
+                />}
+                label={capitalizeFirstLetter(currentTheme)}
+                labelPlacement="start"/>
+          </Box>
         </Toolbar>
       </AppBar>
   );
