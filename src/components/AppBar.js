@@ -5,22 +5,29 @@ import {
   Typography,
 } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
-import {setThemeState} from '../store/actions';
+import {setAccountDialogState, setThemeState} from '../store/actions';
 import {capitalizeFirstLetter, GetRandomRainbowColor} from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import {AccountCircle} from '@mui/icons-material';
+import AccountSettingDialog from './AccountSettingDialog';
 
 export function AliasAppBar() {
   const [nameColor, setNameColor] = useState('inherit');
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
+  const userNickName = useSelector(state => state.NICK_NAME);
+
+  /////////////////////////////////////////////////////////////////
   const ChangeTheme = () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     dispatch(setThemeState(newTheme));
     localStorage.setItem('themePreferences', newTheme);
     setNameColor('inherit');
   };
+  const handleClickOpen = () => {
+    dispatch(setAccountDialogState(true));
+  }
   return (
       <AppBar position="static" style={{
         backgroundColor: currentTheme === 'dark' ?
@@ -36,10 +43,15 @@ export function AliasAppBar() {
           <Box sx={{
             display: 'flex',
             marginLeft: 'auto',
+            alignItems: 'center',
           }}>
-            <IconButton color='inherit'>
+            <Typography variant="h6" sx={{
+              marginRight: '10px'
+            }}>{userNickName}</Typography>
+            <IconButton color='inherit' onClick={handleClickOpen}>
               <AccountCircle/>
             </IconButton>
+            <AccountSettingDialog />
             <FormControlLabel
                 value="bottom"
                 sx={{

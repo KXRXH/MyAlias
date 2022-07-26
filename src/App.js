@@ -4,6 +4,7 @@ import {createTheme, CssBaseline, ThemeProvider} from '@mui/material';
 import './App.css';
 import {AliasAppBar} from "./components/AppBar";
 import {useSelector} from "react-redux";
+import AccountSettingDialog from './components/AccountSettingDialog';
 
 
 
@@ -20,6 +21,7 @@ function App() {
         <CssBaseline/>
         <div className="App">
           <AliasAppBar />
+          <AccountSettingDialog />
         </div>
       </ThemeProvider>
   );

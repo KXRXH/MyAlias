@@ -14,8 +14,7 @@ root.render(
       <Provider store={store}>
         <DevSupport
             ComponentPreviews={ComponentPreviews}
-            useInitialHook={useInitial}
-        >
+            useInitialHook={useInitial}>
           <App/>
         </DevSupport>
       </Provider>
