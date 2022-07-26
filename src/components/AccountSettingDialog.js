@@ -29,6 +29,9 @@ export default function AccountSettingDialog() {
       dispatch(setAccountDialogState(false));
     }
   };
+  const handleCloseWithoutSave = () => {
+      dispatch(setAccountDialogState(false));
+  };
   return (
       <div>
         <Dialog open={accDialogState} onClose={handleClose}>
@@ -52,6 +55,7 @@ export default function AccountSettingDialog() {
             />
           </DialogContent>
           <DialogActions>
+            <Button onClick={handleCloseWithoutSave}>Discard</Button>
             <Button onClick={handleClose}>Save and close</Button>
           </DialogActions>
         </Dialog>
