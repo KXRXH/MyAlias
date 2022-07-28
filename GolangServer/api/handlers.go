@@ -11,47 +11,93 @@ import (
 	"github.com/kxrxh/alias-backend/utils"
 )
 
-// Ping/pong request
-func PingHandler(context *fiber.Ctx) error {
+// Server ping handler.
+func MainRouteHandler(context *fiber.Ctx) error {
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "pong",
+		"message": "OK",
 	})
 }
 
+// User connect request handler.
 func ConnectHandler(context *fiber.Ctx) error {
-	context.Accepts("application/json") // "application/json"
 	id, err := strconv.Atoi(context.Params("room_id"))
 	if err != nil {
 		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
-			"message": "Error has occurred",
-			"error":   err.Error(),
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
 		})
 	}
 	model := models.User{}
 	if err := context.BodyParser(&model); err != nil {
 		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
-			"message": "Error has occurred",
-			"error":   err.Error(),
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
 		})
 	}
-	game.ConnectUserToRoom(id, model)
+	room_user_id := utils.GenerateRandomId(1, 1000)
+	if game.ConnectUserToheRoom(id, model, room_user_id) {
+		return context.Status(http.StatusOK).JSON(&fiber.Map{
+			"message": "OK",
+			"room":    game.GetRoomById(id),
+			"user_id": room_user_id,
+		})
+	}
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": fmt.Sprintf("User %s has been connected to room %v\n", model.NickName, id),
-		"room":    game.GetRoomById(id),
+		"message": "Unable to connect to unexisting room",
 	})
 }
 
+// User disconnect request handler.
 func DisconnectHandler(context *fiber.Ctx) error {
-	context.Accepts("application/json") // "application/json"
-	return nil
+	model := models.User{}
+	if err := context.BodyParser(&model); err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	status := game.DisconnectUserFromTheRoom(model)
+	if !status {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "Unable to disconnect user from the room",
+		})
+	}
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
+		"rooms":   game.GetAllRooms(),
+	})
 }
 
-func NewRoomHandler(context *fiber.Ctx) error {
-	context.Accepts("application/json") // "application/json"
-	model := models.Room{RoomId: utils.GenerateRandomId(), UserList: []models.User{}, State: models.State{StateName: "wait", TimeLeft: 60}, Teams: []int{}}
+// Creating a new room handler.
+func CreateNewRoomHandler(context *fiber.Ctx) error {
+	model := models.Room{
+		RoomId:   utils.GenerateRandomId(100000, 1000000),
+		UserList: []models.User{},
+		State: models.State{StateName: "wait",
+			TimeLeft: 60},
+		Teams: []int{}}
 	game.CreateNewRoom(model)
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "Room was created successfully",
+		"message": "OK",
+		"room":    model,
+	})
+}
+
+// Getting all rooms handler.
+func GetAllRoomsHandler(context *fiber.Ctx) error {
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
 		"rooms":   game.GetAllRooms(),
+	})
+}
+
+// Handler for getting room info by its id.
+func GetRoomByIdHandler(context *fiber.Ctx) error {
+	id, err := strconv.Atoi(context.Params("id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
+		"room":    game.GetRoomById(id),
 	})
 }

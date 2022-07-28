@@ -14,9 +14,9 @@ import {
 import {useState} from 'react';
 
 export default function AccountSettingDialog() {
-  const [nickNameInput, setNickNameInput] = useState('');
   const accDialogState = useSelector(state => state.ACCOUNT_DIALOG_STATE);
   const userNickName = useSelector(state => state.NICK_NAME);
+  const [nickNameInput, setNickNameInput] = useState(userNickName);
   const dispatch = useDispatch();
   ////////////////////////////////////////////////////////////////
   const handleTextInputChange = event => {
@@ -51,7 +51,6 @@ export default function AccountSettingDialog() {
                 fullWidth
                 variant="standard"
                 required={true}
-                defaultValue={userNickName}
             />
           </DialogContent>
           <DialogActions>

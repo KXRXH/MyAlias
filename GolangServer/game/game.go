@@ -1,6 +1,8 @@
 package game
 
-import "github.com/kxrxh/alias-backend/models"
+import (
+	"github.com/kxrxh/alias-backend/models"
+)
 
 var roomList = []models.Room{}
 
@@ -21,11 +23,24 @@ func GetAllRooms() []models.Room {
 	return roomList
 }
 
-func ConnectUserToRoom(roomId int, user models.User) {
+func ConnectUserToheRoom(roomId int, user models.User, room_user_id int) bool {
 	room := GetRoomById(roomId)
 	if room != nil {
+		user.RoomId = roomId
+		user.Id = room_user_id
 		room.UserList = append(room.UserList, user)
+		return true
 	}
+	return false
+}
+
+func DisconnectUserFromTheRoom(user models.User) bool {
+	room := GetRoomById(user.RoomId)
+	if room != nil {
+		room.RemoveUserFromRoom(user)
+		return true
+	}
+	return false
 }
 
 func ChangeGameState(state models.Room) error {
