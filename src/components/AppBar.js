@@ -11,13 +11,17 @@ import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import {AccountCircle} from '@mui/icons-material';
 import AccountSettingDialog from './AccountSettingDialog';
-import Brightness1Icon from '@mui/icons-material/Brightness1';
 
 export function AliasAppBar() {
   const [nameColor, setNameColor] = useState('inherit');
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
   const userNickName = useSelector(state => state.NICK_NAME);
+  if (!sessionStorage.getItem('user')) {
+    sessionStorage.setItem('user',
+        JSON.stringify(
+            {'id': 0, 'nickname': userNickName, 'room_id': 0, 'team': 0}));
+  }
   /////////////////////////////////////////////////////////////////
   const ChangeTheme = () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -27,7 +31,7 @@ export function AliasAppBar() {
   };
   const handleClickOpen = () => {
     dispatch(setAccountDialogState(true));
-  }
+  };
   /////////////////////////////////////////////////////////////////
   return (
       <AppBar position="static" style={{
@@ -47,12 +51,12 @@ export function AliasAppBar() {
             alignItems: 'center',
           }}>
             <Typography variant="h6" sx={{
-              marginRight: '10px'
+              marginRight: '10px',
             }}>{userNickName}</Typography>
-            <IconButton color='inherit' onClick={handleClickOpen}>
+            <IconButton color="inherit" onClick={handleClickOpen}>
               <AccountCircle/>
             </IconButton>
-            <AccountSettingDialog />
+            <AccountSettingDialog/>
             <FormControlLabel
                 value="bottom"
                 sx={{

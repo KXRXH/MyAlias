@@ -6,3 +6,10 @@ export function capitalizeFirstLetter(str) {
 export function GetRandomRainbowColor() {
   return rainbowColorCodes[Math.floor(Math.random() * 7)]
 }
+
+export function GetSessionUser() {
+  return JSON.parse(sessionStorage.getItem('user'));
+}
+export function UpdateUser(NewUser) {
+  sessionStorage.setItem('user', JSON.stringify(NewUser));
+}
