@@ -5,7 +5,7 @@ if (!themePreferences) {
   localStorage.setItem('themePreferences', 'light');
 }
 const savedName = localStorage.getItem('userNickName');
-console.log(savedName);
+console.log("Username: " + savedName);
 if (!savedName) {
   localStorage.setItem('userNickName', 'NewUser');
 }
