@@ -21,6 +21,7 @@ HandShakeWithApi();
 function App() {
   const [rooms, setRooms] = useState('');
   const currentTheme = useSelector(state => state.themeState);
+  const userNickName = useSelector(state => state.NICK_NAME);
   const theme = createTheme({
     palette: {
       mode: currentTheme,
@@ -37,6 +38,11 @@ function App() {
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
+  if (!sessionStorage.getItem('user')) {
+    sessionStorage.setItem('user',
+        JSON.stringify(
+            {'id': 0, 'nickname': userNickName, 'room_id': 0, 'team': 0}));
+  }
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>

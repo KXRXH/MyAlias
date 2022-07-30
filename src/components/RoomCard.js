@@ -2,7 +2,6 @@ import {Card, CardContent, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
 import {ConnectToRoom} from '../client/client';
 import {GetSessionUser, UpdateUser} from '../utils/utils';
-import {useSelector} from 'react-redux';
 
 export function RoomCard({RoomId, RoomName, PlayerNumber}) {
   function ButtonClickHandler() {

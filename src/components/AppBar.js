@@ -9,7 +9,6 @@ import {setAccountDialogState, setThemeState} from '../store/actions';
 import {capitalizeFirstLetter, GetRandomRainbowColor} from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
-import {AccountCircle} from '@mui/icons-material';
 import AccountSettingDialog from './AccountSettingDialog';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -18,11 +17,6 @@ export function AliasAppBar() {
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
   const userNickName = useSelector(state => state.NICK_NAME);
-  if (!sessionStorage.getItem('user')) {
-    sessionStorage.setItem('user',
-        JSON.stringify(
-            {'id': 0, 'nickname': userNickName, 'room_id': 0, 'team': 0}));
-  }
   /////////////////////////////////////////////////////////////////
   const ChangeTheme = () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
