@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/kxrxh/alias-backend/api"
-
 )
 
 func main() {
@@ -17,10 +16,12 @@ func main() {
 	app.Use(recover.New())
 	// Routes for accessing to server
 	app.Get("/", api.MainRouteHandler)
+	app.Post("/room/delete/:room_id", api.DeleteRoomByIdHandler)
 	app.Get("/room/get/all", api.GetAllRoomsHandler)
 	app.Get("/room/get/id/:id", api.GetRoomByIdHandler)
-	app.Post("/user/connect/:room_id", api.ConnectHandler)
-	app.Post("/user/disconnect", api.DisconnectHandler)
+	app.Put("/user/connect/:room_id", api.ConnectHandler)
+	app.Put("/user/disconnect", api.DisconnectHandler)
+	app.Put("/user/set/ready/:room_id/:user_id", api.UserReadyHandler)
 	app.Post("/room/new", api.CreateNewRoomHandler)
 	app.Listen("localhost:8080")
 }

@@ -11,8 +11,10 @@ import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import AccountSettingDialog from './AccountSettingDialog';
 import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
+import {CreateNewRoom} from '../client/client';
 
-export function AliasAppBar() {
+export function AliasAppBar({state}) {
   const [nameColor, setNameColor] = useState('inherit');
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
@@ -45,6 +47,12 @@ export function AliasAppBar() {
             marginLeft: 'auto',
             alignItems: 'center',
           }}>
+            {!state
+                ? <Button onClick={() => CreateNewRoom()} sx={{
+                  display: 'flex',
+                  marginRight: '20px',
+                }} color="secondary" variant="outlined">Create new room</Button>
+                : null}
             <Typography variant="h6" sx={{
               marginRight: '1px',
             }}>{userNickName}</Typography>

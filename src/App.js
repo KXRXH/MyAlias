@@ -1,7 +1,7 @@
 import {
   createTheme,
-  CssBaseline,
-  ThemeProvider,
+  CssBaseline, Fab,
+  ThemeProvider, Typography,
 } from '@mui/material';
 import './App.css';
 import {AliasAppBar} from './components/AppBar';
@@ -17,6 +17,7 @@ import {GetSessionUser} from './utils/utils';
 import {DisconnectButton} from './components/DisconnectButton';
 
 HandShakeWithApi();
+
 
 function App() {
   const [rooms, setRooms] = useState('');
@@ -41,16 +42,17 @@ function App() {
   if (!sessionStorage.getItem('user')) {
     sessionStorage.setItem('user',
         JSON.stringify(
-            {'id': 0, 'nickname': userNickName, 'room_id': 0, 'team': 0}));
+            {'id': 0, 'nickname': userNickName, 'room_id': 0, 'team': 0, 'status': false}));
   }
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <div className="App">
-          <AliasAppBar/>
+          <AliasAppBar state={GetSessionUser()['room_id']}/>
           {GetSessionUser()['room_id'] ? <DisconnectButton/> : <RoomStack
               rooms={rooms}/>}
           <AccountSettingDialog/>
+
         </div>
       </ThemeProvider>
   );

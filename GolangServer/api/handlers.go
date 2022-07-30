@@ -114,3 +114,30 @@ func GetRoomByIdHandler(context *fiber.Ctx) error {
 		"room":    game.GetRoomById(id),
 	})
 }
+
+func DeleteRoomByIdHandler(context *fiber.Ctx) error {
+	id, err := strconv.Atoi(context.Params("room_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	game.DeleteRoomById(id)
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
+	})
+}
+
+func UserReadyHandler(context *fiber.Ctx) error {
+	roomId, err := strconv.Atoi(context.Params("room_id"))
+	userId, err := strconv.Atoi(context.Params("user_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	game.ChangePlayerStatus(roomId, userId)
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
+	})
+}
