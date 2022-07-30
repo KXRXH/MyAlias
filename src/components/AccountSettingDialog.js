@@ -58,8 +58,10 @@ export default function AccountSettingDialog() {
             />
           </DialogContent>
           <DialogActions>
-            <Button variant="outlined" color="error" onClick={handleCloseWithoutSave}>Discard</Button>
-            <Button variant="outlined" color="success" onClick={handleClose}>Save and close</Button>
+            <Button variant="outlined" color="error"
+                    onClick={handleCloseWithoutSave}>Discard</Button>
+            <Button variant="outlined" color="success" onClick={handleClose}>
+              Save and close</Button>
           </DialogActions>
         </Dialog>
       </div>

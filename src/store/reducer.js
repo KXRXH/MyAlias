@@ -2,7 +2,7 @@ import * as actions from './actionTypes';
 
 const themePreferences = localStorage.getItem('themePreferences');
 if (!themePreferences) {
-  localStorage.setItem('themePreferences', 'light');
+  localStorage.setItem('themePreferences', 'dark');
 }
 const savedName = localStorage.getItem('userNickName');
 if (!savedName) {

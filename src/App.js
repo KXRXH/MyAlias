@@ -1,7 +1,6 @@
 import {
-  Box,
   createTheme,
-  CssBaseline, Stack,
+  CssBaseline,
   ThemeProvider,
 } from '@mui/material';
 import './App.css';
@@ -11,10 +10,13 @@ import AccountSettingDialog from './components/AccountSettingDialog';
 import {useEffect, useState} from 'react';
 import {MINUTE_MS} from './constants/misc';
 import {
-  GetAllRooms,
-  HandShakeWithApi,
+  GetAllRooms, HandShakeWithApi,
 } from './client/client';
-import {RoomCard} from './components/RoomCard';
+import {RoomStack} from './components/RoomStack';
+import {GetSessionUser} from './utils/utils';
+import {DisconnectButton} from './components/DisconnectButton';
+
+HandShakeWithApi();
 
 function App() {
   const [rooms, setRooms] = useState('');
@@ -31,29 +33,18 @@ function App() {
     };
     getRooms().catch(err => console.log(err));
     const interval = setInterval(() => {
-      HandShakeWithApi();
       getRooms().catch(err => console.log(err));
     }, MINUTE_MS);
-    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    return () => clearInterval(interval);
   }, []);
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <div className="App">
           <AliasAppBar/>
+          {GetSessionUser()['room_id'] ? <DisconnectButton/> : <RoomStack
+              rooms={rooms}/>}
           <AccountSettingDialog/>
-          <Box sx={{
-            marginTop: '30px',
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-            <Stack spacing={2}>
-              {rooms ? rooms.map(obj => {
-                return <RoomCard key={obj['room_id']} RoomId={obj['room_id']}
-                                 PlayerNumber={obj['user_list'].length}/>;
-              }) : null}
-            </Stack>
-          </Box>
         </div>
       </ThemeProvider>
   );

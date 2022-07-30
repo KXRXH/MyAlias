@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants/api';
+import {GetSessionUser, UpdateUser} from '../utils/utils';
 
 export function HandShakeWithApi() {
   axios.get(`${api_url}/`).then((response) => {
@@ -13,22 +14,50 @@ export function HandShakeWithApi() {
 
 export async function GetAllRooms() {
   try {
-    const rooms = await axios.get(`${api_url}/room/get/all`);
-    return await rooms.data;
-  } catch (e) {
-    console.log(e);
+    const response = await fetch(`${api_url}/room/get/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
   }
 }
 
-export async function ConnectToRoom(RoomId) {
+export async function ConnectToRoom(User, RoomId) {
   try {
-    const json = JSON.stringify(
-        {'id': 0, 'nickname': 'kxrxh', 'room_id': 0, 'team': 0});
-    const response = await axios.post(`${api_url}/user/connect/${RoomId}`,
-        json);
-    return await response.data;
-  } catch (e) {
-    console.log(e);
+    const response = await fetch(`${api_url}/user/connect/${RoomId}`, {
+      method: 'POST',
+      body: JSON.stringify(User),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
   }
 }
 
+export async function DisconnectFromRoom() {
+  try {
+    const response = await fetch(`${api_url}/user/disconnect`, {
+      method: 'POST',
+      body: JSON.stringify(GetSessionUser()),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const usr = GetSessionUser();
+    console.log(usr);
+    usr['room_id'] = 0;
+    usr['id'] = 0;
+    usr['team'] = 0;
+    UpdateUser(usr);
+    return await response.json();
+  } catch (err) {
+    console.warn(err);
+  }
+}

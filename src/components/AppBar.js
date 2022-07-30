@@ -11,6 +11,7 @@ import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import {AccountCircle} from '@mui/icons-material';
 import AccountSettingDialog from './AccountSettingDialog';
+import EditIcon from '@mui/icons-material/Edit';
 
 export function AliasAppBar() {
   const [nameColor, setNameColor] = useState('inherit');
@@ -51,10 +52,10 @@ export function AliasAppBar() {
             alignItems: 'center',
           }}>
             <Typography variant="h6" sx={{
-              marginRight: '10px',
+              marginRight: '1px',
             }}>{userNickName}</Typography>
             <IconButton color="inherit" onClick={handleClickOpen}>
-              <AccountCircle/>
+              <EditIcon/>
             </IconButton>
             <AccountSettingDialog/>
             <FormControlLabel
