@@ -1,1 +1,1 @@
-export const MINUTE_MS = 10000;
+export const MINUTE_MS = 1000;

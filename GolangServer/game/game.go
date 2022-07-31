@@ -2,13 +2,22 @@ package game
 
 import (
 	"github.com/kxrxh/alias-backend/models"
-
 )
 
 var roomList = []models.Room{}
 
 func CreateNewRoom(room models.Room) {
 	roomList = append(roomList, room)
+}
+
+func DeleteRoomById(id int) {
+	newRoomList := []models.Room{}
+	for _, room := range roomList {
+		if room.RoomId != id {
+			newRoomList = append(newRoomList, room)
+		}
+	}
+	roomList = newRoomList
 }
 
 func GetAllRooms() []models.Room {
@@ -46,4 +55,11 @@ func ChangePlayerName(user models.User) bool {
 
 func ChangeGameState(state models.Room) error {
 	return nil
+}
+
+func ChangePlayerStatus(roomId, playerId int) {
+	room := GetRoomById(roomId)
+	if room == nil {
+		room.ChangeUserStatus(playerId)
+	}
 }

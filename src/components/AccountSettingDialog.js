@@ -12,6 +12,7 @@ import {
   setNickName,
 } from '../store/actions';
 import {useState} from 'react';
+import {GetSessionUser, UpdateUser} from '../utils/utils';
 
 export default function AccountSettingDialog() {
   const accDialogState = useSelector(state => state.ACCOUNT_DIALOG_STATE);
@@ -25,12 +26,15 @@ export default function AccountSettingDialog() {
   const handleClose = () => {
     if (nickNameInput.length > 0) {
       dispatch(setNickName(nickNameInput));
+      const user = GetSessionUser();
+      user['nickname'] = nickNameInput;
+      UpdateUser(user);
       localStorage.setItem('userNickName', nickNameInput);
       dispatch(setAccountDialogState(false));
     }
   };
   const handleCloseWithoutSave = () => {
-      dispatch(setAccountDialogState(false));
+    dispatch(setAccountDialogState(false));
   };
   return (
       <div>
@@ -46,7 +50,7 @@ export default function AccountSettingDialog() {
                 value={nickNameInput}
                 onChange={handleTextInputChange}
                 id="name"
-                label="NickName"
+                label="Your nickname"
                 type="name"
                 fullWidth
                 variant="standard"
@@ -54,8 +58,10 @@ export default function AccountSettingDialog() {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseWithoutSave}>Discard</Button>
-            <Button onClick={handleClose}>Save and close</Button>
+            <Button variant="outlined" color="error"
+                    onClick={handleCloseWithoutSave}>Discard</Button>
+            <Button variant="outlined" color="success" onClick={handleClose}>
+              Save and close</Button>
           </DialogActions>
         </Dialog>
       </div>

@@ -18,7 +18,14 @@ func MainRouteHandler(context *fiber.Ctx) error {
 	})
 }
 
-// User connect request handler.
+/* User connect request handler.
+Params: [room_id: int].
+Json input: {
+	'id': int,
+	'nickname': string,
+	'team': int,
+	'room_id': int,}
+*/
 func ConnectHandler(context *fiber.Ctx) error {
 	id, err := strconv.Atoi(context.Params("room_id"))
 	if err != nil {
@@ -45,7 +52,13 @@ func ConnectHandler(context *fiber.Ctx) error {
 	})
 }
 
-// User disconnect request handler.
+/* User disconnect request handler.
+Json input: {
+	'id': int,
+	'nickname': string,
+	'team': int,
+	'room_id': int,}
+*/
 func DisconnectHandler(context *fiber.Ctx) error {
 	model := models.User{}
 	if err := context.BodyParser(&model); err != nil {
@@ -99,5 +112,32 @@ func GetRoomByIdHandler(context *fiber.Ctx) error {
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "OK",
 		"room":    game.GetRoomById(id),
+	})
+}
+
+func DeleteRoomByIdHandler(context *fiber.Ctx) error {
+	id, err := strconv.Atoi(context.Params("room_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	game.DeleteRoomById(id)
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
+	})
+}
+
+func UserReadyHandler(context *fiber.Ctx) error {
+	roomId, err := strconv.Atoi(context.Params("room_id"))
+	userId, err := strconv.Atoi(context.Params("user_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	game.ChangePlayerStatus(roomId, userId)
+	return context.Status(http.StatusOK).JSON(&fiber.Map{
+		"message": "OK",
 	})
 }

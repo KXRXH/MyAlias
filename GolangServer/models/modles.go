@@ -5,6 +5,7 @@ type User struct {
 	NickName string `json:"nickname"`
 	RoomId   int    `json:"room_id"`
 	Team     int    `json:"team"`
+	Status   bool   `json:"status"`
 }
 
 type State struct {

@@ -9,11 +9,12 @@ import {setAccountDialogState, setThemeState} from '../store/actions';
 import {capitalizeFirstLetter, GetRandomRainbowColor} from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
-import {AccountCircle} from '@mui/icons-material';
 import AccountSettingDialog from './AccountSettingDialog';
-import Brightness1Icon from '@mui/icons-material/Brightness1';
+import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
+import {CreateNewRoom} from '../client/client';
 
-export function AliasAppBar() {
+export function AliasAppBar({state}) {
   const [nameColor, setNameColor] = useState('inherit');
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
@@ -27,7 +28,7 @@ export function AliasAppBar() {
   };
   const handleClickOpen = () => {
     dispatch(setAccountDialogState(true));
-  }
+  };
   /////////////////////////////////////////////////////////////////
   return (
       <AppBar position="static" style={{
@@ -46,13 +47,19 @@ export function AliasAppBar() {
             marginLeft: 'auto',
             alignItems: 'center',
           }}>
+            {!state
+                ? <Button onClick={() => CreateNewRoom()} sx={{
+                  display: 'flex',
+                  marginRight: '20px',
+                }} color="secondary" variant="outlined">Create new room</Button>
+                : null}
             <Typography variant="h6" sx={{
-              marginRight: '10px'
+              marginRight: '1px',
             }}>{userNickName}</Typography>
-            <IconButton color='inherit' onClick={handleClickOpen}>
-              <AccountCircle/>
+            <IconButton color="inherit" onClick={handleClickOpen}>
+              <EditIcon/>
             </IconButton>
-            <AccountSettingDialog />
+            <AccountSettingDialog/>
             <FormControlLabel
                 value="bottom"
                 sx={{

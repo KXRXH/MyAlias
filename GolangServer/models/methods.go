@@ -17,3 +17,11 @@ func (room *Room) ChangeUserName(newUserData User) {
 		}
 	}
 }
+
+func (room *Room) ChangeUserStatus(userId int) {
+	for i := 0; i < len(room.UserList); i++ {
+		if room.UserList[i].Id == userId {
+			room.UserList[i].Status = !room.UserList[i].Status
+		}
+	}
+}
