@@ -15,3 +15,8 @@ export const setAccountDialogState = value => ({
   type: actions.ACCOUNT_STATE,
   payload: value,
 });
+
+export const setMainState = value => ({
+  type: actions.MAIN_STATE,
+  payload: value,
+});

@@ -6,7 +6,10 @@ import {
 } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAccountDialogState, setThemeState} from '../store/actions';
-import {capitalizeFirstLetter, GetRandomRainbowColor} from '../utils/utils';
+import {
+  capitalizeFirstLetter,
+  GetRandomRainbowColor, UpdateState,
+} from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import AccountSettingDialog from './AccountSettingDialog';
@@ -18,7 +21,7 @@ export function AliasAppBar({state}) {
   const [nameColor, setNameColor] = useState('inherit');
   const dispatch = useDispatch();
   const currentTheme = useSelector(state => state.themeState);
-  const userNickName = useSelector(state => state.NICK_NAME);
+  const userNickName = useSelector(state => state.nickName);
   /////////////////////////////////////////////////////////////////
   const ChangeTheme = () => {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -28,6 +31,9 @@ export function AliasAppBar({state}) {
   };
   const handleClickOpen = () => {
     dispatch(setAccountDialogState(true));
+  };
+  const handleClickCreate = () => {
+    CreateNewRoom(dispatch).catch(err => console.warn(err));
   };
   /////////////////////////////////////////////////////////////////
   return (
@@ -47,12 +53,10 @@ export function AliasAppBar({state}) {
             marginLeft: 'auto',
             alignItems: 'center',
           }}>
-            {!state
-                ? <Button onClick={() => CreateNewRoom()} sx={{
-                  display: 'flex',
-                  marginRight: '20px',
-                }} color="secondary" variant="outlined">Create new room</Button>
-                : null}
+            {state ? null : <Button onClick={handleClickCreate} sx={{
+              display: 'flex',
+              marginRight: '20px',
+            }} color="secondary" variant="outlined">Create new room</Button>}
             <Typography variant="h6" sx={{
               marginRight: '1px',
             }}>{userNickName}</Typography>

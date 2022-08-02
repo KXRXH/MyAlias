@@ -8,9 +8,13 @@ type User struct {
 	Status   bool   `json:"status"`
 }
 
+type Team struct {
+	Id       int    `json:"id"`
+	UserList []User `json:"user_list"`
+}
+
 type State struct {
 	// StateNames:
-	// Wait  (waiting for users)
 	// Ready (waiting for users ready)
 	// Run   (game is running)
 	StateName string `json:"stateName"`
@@ -19,7 +23,7 @@ type State struct {
 }
 type Room struct {
 	RoomId   int    `json:"room_id"`
-	Teams    []int  `json:"teams"`
+	Teams    []Team `json:"teams"`
 	UserList []User `json:"user_list"`
 	State    State  `json:"state"`
 }

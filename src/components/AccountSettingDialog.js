@@ -15,8 +15,8 @@ import {useState} from 'react';
 import {GetSessionUser, UpdateUser} from '../utils/utils';
 
 export default function AccountSettingDialog() {
-  const accDialogState = useSelector(state => state.ACCOUNT_DIALOG_STATE);
-  const userNickName = useSelector(state => state.NICK_NAME);
+  const accDialogState = useSelector(state => state.accountDialogState);
+  const userNickName = useSelector(state => state.nickName);
   const [nickNameInput, setNickNameInput] = useState(userNickName);
   const dispatch = useDispatch();
   ////////////////////////////////////////////////////////////////

@@ -1,1 +1,1 @@
-export const MINUTE_MS = 1000;
+export const MINUTE_MS = 7000; // 7 seconds

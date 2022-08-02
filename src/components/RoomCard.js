@@ -1,8 +1,14 @@
 import {Card, CardContent, Typography} from '@mui/material';
 import Button from '@mui/material/Button';
-import {ConnectToRoom} from '../client/client';
+import {ConnectToRoom, CreateNewRoom} from '../client/client';
+import {UpdateState} from '../utils/utils';
+import {useDispatch} from 'react-redux';
 
 export function RoomCard({RoomId, RoomName, PlayerNumber}) {
+  const dispatch = useDispatch();
+  const handleClickConnect = () => {
+    ConnectToRoom(RoomId).then(() => UpdateState(dispatch));
+  };
   return (
       <Card sx={{maxWidth: 421}}>
         <CardContent sx={{minWidth: 275}}>
@@ -16,7 +22,7 @@ export function RoomCard({RoomId, RoomName, PlayerNumber}) {
             display: 'flex',
             marginRight: 'auto',
           }}>Players: {PlayerNumber}</Typography>
-          <Button onClick={() => ConnectToRoom(RoomId)} variant="outlined"
+          <Button onClick={handleClickConnect} variant="outlined"
                   size="large" color="success" sx={{
             display: 'flex',
             marginRight: 'auto',

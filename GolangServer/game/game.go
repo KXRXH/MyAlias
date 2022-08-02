@@ -63,3 +63,12 @@ func ChangePlayerStatus(roomId, playerId int) {
 		room.ChangeUserStatus(playerId)
 	}
 }
+
+func CreateNewTeam(roomId int, teamId int) *models.Room {
+	room := GetRoomById(roomId)
+	if room == nil {
+		room.AddNewTeamToRoom(teamId)
+		return room
+	}
+	return nil
+}

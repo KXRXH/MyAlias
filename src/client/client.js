@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants/api';
-import {GetSessionUser, UpdateUser} from '../utils/utils';
+import {GetSessionUser, UpdateState, UpdateUser} from '../utils/utils';
 
 export function HandShakeWithApi() {
   axios.get(`${api_url}/`).then((response) => {
@@ -66,7 +66,7 @@ export async function DisconnectFromRoom() {
   }
 }
 
-export async function CreateNewRoom() {
+export async function CreateNewRoom(dispatch) {
   try {
     const response = await fetch(`${api_url}/room/new`, {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function CreateNewRoom() {
     const responseJson = await response.json();
     if (responseJson['message'] === 'OK') {
       ConnectToRoom(responseJson['room']['room_id']).
-          catch(err => console.warn(err));
+          catch(err => console.warn(err)).then(() => UpdateState(dispatch));
     } else {
       console.warn(responseJson['message']);
     }
@@ -100,10 +100,12 @@ export async function DeleteRoom(RoomId) {
 export async function ChangeStatus() {
   try {
     const user = GetSessionUser();
-    const response = await fetch(
-        `${api_url}/user/set/ready/${user['room_id']}/${user['id']}`, {
-          method: 'PUT',
-        });
+    console.log(user);
+    const url = `${api_url}/user/set/ready/${user['room_id']}/${user['id']}`;
+    console.log(url);
+    const response = await fetch(url, {
+      method: 'PUT',
+    });
     const responseJson = await response.json();
     if (responseJson['message'] !== 'OK') {
       console.warn(responseJson['message']);
@@ -111,4 +113,8 @@ export async function ChangeStatus() {
   } catch (err) {
     console.warn(err);
   }
+}
+
+export function CreateNewTeam() {
+  console.log(1);
 }

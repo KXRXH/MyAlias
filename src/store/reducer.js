@@ -11,27 +11,38 @@ if (!savedName) {
 export default function reducer(
     state = {
       themeState: localStorage.getItem('themePreferences'),
-      NICK_NAME: localStorage.getItem('userNickName'),
-      ACCOUNT_DIALOG_STATE: false,
+      mainState: [],
+      nickName: localStorage.getItem('userNickName'),
+      accountDialogState: false,
     }, action) {
   switch (action.type) {
     case actions.NICK_NAME_STATE:
       return {
-        NICK_NAME: action.payload,
+        nickName: action.payload,
         themeState: state.themeState,
-        ACCOUNT_DIALOG_STATE: state.ACCOUNT_DIALOG_STATE,
+        accountDialogState: state.accountDialogState,
+        mainState: state.mainState
       };
     case actions.THEME_STATE:
       return {
         themeState: action.payload,
-        NICK_NAME: state.NICK_NAME,
-        ACCOUNT_DIALOG_STATE: state.ACCOUNT_DIALOG_STATE,
+        nickName: state.nickName,
+        accountDialogState: state.accountDialogState,
+        mainState: state.mainState
       };
     case actions.ACCOUNT_STATE:
       return {
         themeState: state.themeState,
-        NICK_NAME: state.NICK_NAME,
-        ACCOUNT_DIALOG_STATE: action.payload,
+        nickName: state.nickName,
+        accountDialogState: action.payload,
+        mainState: state.mainState
+      };
+    case actions.MAIN_STATE:
+      return {
+        themeState: state.themeState,
+        nickName: state.nickName,
+        accountDialogState: state.accountDialogState,
+        mainState: action.payload
       };
     default:
       return state;
