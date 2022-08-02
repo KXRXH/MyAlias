@@ -1,12 +1,15 @@
 import Button from '@mui/material/Button';
-import {ConnectToRoom, DisconnectFromRoom} from '../client/client';
-import {useDispatch} from 'react-redux';
-import {UpdateState} from '../utils/utils';
+import {DeleteRoom, DisconnectFromRoom} from '../client/client';
+import {useDispatch, useSelector} from 'react-redux';
+import {GetSessionUser, UpdateState} from '../utils/utils';
 
 export function DisconnectButton() {
   const dispatch = useDispatch();
   const handleClickDisconnect = () => {
-    DisconnectFromRoom().then(() => UpdateState(dispatch));
+    const user = GetSessionUser();
+    DisconnectFromRoom().
+        then(() => DeleteRoom(user['room_id']).
+            then(() => UpdateState(dispatch)));
   };
   return (
       <Button onClick={handleClickDisconnect}
