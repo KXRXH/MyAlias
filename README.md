@@ -1,6 +1,6 @@
 # Just a simple implementation of the game *Alias*
 
-## **Unfortunately, right now app is deployed without backend server.**
+## **Unfortunately, right now app is deployed without backend server.** alias-neon.vercel.app
 
 ### Plans
 > - The app will support various languages such as Russian, English and (possibly) other languages.
