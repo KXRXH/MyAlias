@@ -1,7 +1,7 @@
 # Just a simple implementation of the game *Alias*
 
 ## **Unfortunately, right now app is deployed without backend server.**
-[*click*](alias-neon.vercel.app)
+[*click*](https://alias-neon.vercel.app)
 
 
 ### Plans
