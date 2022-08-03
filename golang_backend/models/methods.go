@@ -27,5 +27,10 @@ func (room *Room) ChangeUserStatus(userId int) {
 }
 
 func (room *Room) AddNewTeamToRoom(newTeamId int) {
+	for _, team := range room.Teams {
+		if team.Id == newTeamId {
+			return
+		}
+	}
 	room.Teams = append(room.Teams, Team{Id: newTeamId, UserList: []User{}})
 }

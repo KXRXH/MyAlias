@@ -59,14 +59,14 @@ func ChangeGameState(state models.Room) error {
 
 func ChangePlayerStatus(roomId, playerId int) {
 	room := GetRoomById(roomId)
-	if room == nil {
+	if room != nil {
 		room.ChangeUserStatus(playerId)
 	}
 }
 
 func CreateNewTeam(roomId int, teamId int) *models.Room {
 	room := GetRoomById(roomId)
-	if room == nil {
+	if room != nil {
 		room.AddNewTeamToRoom(teamId)
 		return room
 	}

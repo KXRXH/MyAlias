@@ -2,10 +2,26 @@ import {DisconnectButton} from './DisconnectButton';
 import {Box, Stack} from '@mui/material';
 import {TeamCard} from './TeamCard';
 import {NewTeamCard} from './NewTeamCard';
+import {useEffect, useState} from 'react';
+import {INTERVAL_ROOM} from '../constants/misc';
+import {GetRoomData} from '../client/rooms';
+import {WarningAlert} from './InfoAlert';
 
-export function GameScreen() {
+export function GameScreen({RoomID}) {
+  const [room, setRoomData] = useState({teams: []});
+  const [open, setOpen] = useState(false);
+  // Updating room every second
+  useEffect(() => {
+    GetRoomData(RoomID, setRoomData).catch(err => console.warn(err)); // updating before waiting first second
+    const interval = setInterval(() => {
+      GetRoomData(RoomID, setRoomData).catch(err => console.warn(err));
+    }, INTERVAL_ROOM);
+    return () => clearInterval(interval);
+  }, [RoomID, setRoomData]);
+
   return (
       <Box>
+        <WarningAlert open={open} setOpen={setOpen}/>
         <DisconnectButton/>
         <Box sx={{
           marginTop: '30px',
@@ -13,11 +29,20 @@ export function GameScreen() {
           justifyContent: 'center',
         }}>
           <Stack direction="row" spacing={2}>
-            <TeamCard TeamNumber={1} Users={[1, 2, 3, 4, 5]}/>
-            <TeamCard TeamNumber={2} Users={[6, 7, 8]}/>
-            <TeamCard TeamNumber={3} User={[9, 10, 11, 12]}/>
-            <TeamCard TeamNumber={4} Users={[13]}/>
-            <NewTeamCard />
+            {room['teams'] ? room['teams'].map(team => {
+              return <TeamCard key={team['id']} TeamNumber={team['id']}
+                               Users={team['user_list']}/>;
+            }) : null}
+            <NewTeamCard
+                SetOpen={setOpen}
+                ModerationIsAllowed={true}
+                RoomID={RoomID}
+                NewTeamID={room['teams'].length + 1}
+                Callback={(newTeams) => {
+                  const newRoom = room;
+                  newRoom['teams'] = newTeams;
+                  setRoomData(newRoom);
+                }}/>
           </Stack>
         </Box>
         <Box sx={{
@@ -25,7 +50,7 @@ export function GameScreen() {
           display: 'flex',
           justifyContent: 'center',
         }}>
-          <TeamCard TeamNumber={"Spectators"}/>
+          <TeamCard TeamNumber={'Spectators'}/>
         </Box>
       </Box>
   );

@@ -1,11 +1,11 @@
 import {GetSessionUser, UpdateUser} from '../utils/utils';
 import {api_url} from '../constants/api';
 
-export async function ConnectToRoom(RoomId, IsCreator) {
+export async function ConnectToRoom(RoomID, IsCreator) {
   try {
     const user = GetSessionUser();
     const response = await fetch(
-        `${api_url}/user/connect/${RoomId}/${IsCreator}`, {
+        `${api_url}/user/connect/${RoomID}/${IsCreator}`, {
           method: 'PUT',
           body: JSON.stringify(user),
           headers: {
@@ -15,7 +15,7 @@ export async function ConnectToRoom(RoomId, IsCreator) {
     const responseJson = await response.json();
     if (responseJson['message'] === 'OK') {
       user['id'] = responseJson['user_id'];
-      user['room_id'] = RoomId;
+      user['room_id'] = RoomID;
       user['status'] = false;
       UpdateUser(user);
     }

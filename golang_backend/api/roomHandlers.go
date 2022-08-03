@@ -57,6 +57,6 @@ func CreateNewTeamHandler(context *fiber.Ctx) error {
 	room := game.CreateNewTeam(roomId, newTeamId)
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "OK",
-		"Room":    room,
+		"room":    room,
 	})
 }

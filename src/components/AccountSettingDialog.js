@@ -29,7 +29,7 @@ export default function AccountSettingDialog() {
       const user = GetSessionUser();
       user['nickname'] = nickNameInput;
       UpdateUser(user);
-      localStorage.setItem('userNickName', nickNameInput);
+      localStorage.setItem('userNickName', nickNameInput.toString()); // untested
       dispatch(setAccountDialogState(false));
     }
   };

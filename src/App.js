@@ -14,7 +14,7 @@ import {
 import {RoomStack} from './components/RoomStack';
 import {GetSessionUser, UpdateState} from './utils/utils';
 import {GameScreen} from './components/GameScreen';
-import {MINUTE_MS} from './constants/misc';
+import {INTERVAL_BACKGROUND, INTERVAL_MAIN} from './constants/misc';
 
 HandShakeWithApi();
 
@@ -25,7 +25,6 @@ function App() {
       mode: currentTheme,
     },
   });
-
   const mainState = useSelector(state => state.mainState);
   const userNickName = useSelector(state => state.nickName);
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ function App() {
     UpdateState(dispatch);
     const interval = setInterval(() => {
       UpdateState(dispatch);
-    }, MINUTE_MS);
+    }, GetSessionUser()['room_id'] ? INTERVAL_BACKGROUND : INTERVAL_MAIN);
     return () => clearInterval(interval);
   }, [dispatch]);
   if (!sessionStorage.getItem('user')) {
@@ -53,7 +52,8 @@ function App() {
         <CssBaseline/>
         <div className="App">
           <AliasAppBar state={GetSessionUser()['room_id']}/>
-          {GetSessionUser()['room_id'] ? <GameScreen/> : <RoomStack
+          {GetSessionUser()['room_id'] ? <GameScreen
+              RoomID={GetSessionUser()['room_id']}/> : <RoomStack
               rooms={mainState}/>}
           <AccountSettingDialog/>
         </div>

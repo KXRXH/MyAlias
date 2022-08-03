@@ -23,8 +23,9 @@ export async function CreateNewRoom(dispatch) {
     });
     const responseJson = await response.json();
     if (responseJson['message'] === 'OK') {
-      ConnectToRoom(responseJson['room']['room_id'], 1).
-          catch(err => console.warn(err)).then(() => UpdateState(dispatch));
+      ConnectToRoom(responseJson['room']['room_id'], 1)
+      .catch(err => console.warn(err))
+      .then(() => UpdateState(dispatch));
     } else {
       console.warn(responseJson['message']);
     }
@@ -33,10 +34,10 @@ export async function CreateNewRoom(dispatch) {
   }
 }
 
-export async function DeleteRoom(RoomId, IsCreator) {
+export async function DeleteRoom(RoomID, IsCreator) {
   if (IsCreator)
     try {
-      const response = await fetch(`${api_url}/room/delete/${RoomId}`, {
+      const response = await fetch(`${api_url}/room/delete/${RoomID}`, {
         method: 'POST',
       });
       const responseJson = await response.json();
@@ -48,6 +49,36 @@ export async function DeleteRoom(RoomId, IsCreator) {
     }
 }
 
-export function CreateNewTeam() {
-  console.log(1);
+export async function CreateNewTeam(RoomID, NewTeamID, Callback) {
+  try {
+    const response = await fetch(
+        `${api_url}/room/create/team/${RoomID}/${NewTeamID}`, {
+          method: 'POST',
+        });
+    const responseJson = await response.json();
+    if (responseJson['message'] === 'OK') {
+      console.log(responseJson['room']['teams']);
+      Callback(responseJson['room']['teams']);
+    } else {
+      console.warn(responseJson['message']);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+export async function GetRoomData(RoomID, Callback) {
+  try {
+    const response = await fetch(`${api_url}/room/get/id/${RoomID}`, {
+      method: 'GET',
+    });
+    const responseJson = await response.json();
+    if (responseJson['message'] === 'OK') {
+      Callback(responseJson['room']);
+    } else {
+      console.warn(responseJson['message']);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
 }
