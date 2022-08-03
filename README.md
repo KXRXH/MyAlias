@@ -1,6 +1,6 @@
 # Just a simple implementation of the game *Alias*
 
-## **Unfortunately, now app is deployed without backend server.**
+## **Unfortunately, right now app is deployed without backend server.**
 
 ### Plans
 > - The app will support various languages such as Russian, English and (possibly) other languages.
