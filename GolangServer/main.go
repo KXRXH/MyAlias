@@ -20,7 +20,7 @@ func main() {
 	app.Post("/room/create/team/:room_id/:new_team_id", api.CreateNewTeamHandler)
 	app.Get("/room/get/all", api.GetAllRoomsHandler)
 	app.Get("/room/get/id/:id", api.GetRoomByIdHandler)
-	app.Put("/user/connect/:room_id", api.ConnectHandler)
+	app.Put("/user/connect/:room_id/:is_creator", api.ConnectHandler)
 	app.Put("/user/change/team/:room_id/:user_id/:new_team_id", api.ChangeTeamHandler)
 	app.Put("/user/disconnect", api.DisconnectHandler)
 	app.Put("/user/set/ready/:room_id/:user_id", api.UserReadyHandler)

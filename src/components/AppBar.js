@@ -8,14 +8,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAccountDialogState, setThemeState} from '../store/actions';
 import {
   capitalizeFirstLetter,
-  GetRandomRainbowColor, UpdateState,
+  GetRandomRainbowColor,
 } from '../utils/utils';
 import {DarkAppBarColor, LightAppBarColor} from '../constants/colors';
 import {useState} from 'react';
 import AccountSettingDialog from './AccountSettingDialog';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
-import {CreateNewRoom} from '../client/client';
+import {CreateNewRoom} from '../client/rooms';
 
 export function AliasAppBar({state}) {
   const [nameColor, setNameColor] = useState('inherit');

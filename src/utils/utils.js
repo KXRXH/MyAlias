@@ -1,6 +1,6 @@
 import {rainbowColorCodes} from '../constants/colors';
-import {GetAllRooms} from '../client/client';
 import {setMainState} from '../store/actions';
+import {GetAllRooms} from '../client/rooms';
 
 export function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -19,10 +19,10 @@ export function UpdateUser(NewUser) {
 }
 
 export function UpdateState(dispatch) {
-  console.log('updating...');
   const getRooms = async () => {
     const response = await GetAllRooms();
     if (response['message'] === 'OK') {
+      console.log('updating...');
       dispatch(setMainState(response['rooms']));
     } else {
       dispatch(setMainState([]));

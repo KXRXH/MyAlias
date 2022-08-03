@@ -10,7 +10,7 @@ import AccountSettingDialog from './components/AccountSettingDialog';
 import {useEffect} from 'react';
 import {
   HandShakeWithApi,
-} from './client/client';
+} from './client';
 import {RoomStack} from './components/RoomStack';
 import {GetSessionUser, UpdateState} from './utils/utils';
 import {GameScreen} from './components/GameScreen';
@@ -41,7 +41,7 @@ function App() {
     sessionStorage.setItem('user',
         JSON.stringify(
             {
-              'id': 0,
+              'id': -1,
               'nickname': userNickName,
               'room_id': 0,
               'team': 0,

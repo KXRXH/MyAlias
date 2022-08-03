@@ -26,18 +26,30 @@ func ConnectHandler(context *fiber.Ctx) error {
 			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
 		})
 	}
+	isCreator, err := strconv.Atoi(context.Params("is_creator"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
 	model := models.User{}
 	if err := context.BodyParser(&model); err != nil {
 		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
 			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
 		})
 	}
-	room_user_id := utils.GenerateRandomId(1, 1000)
-	if game.ConnectUserToheRoom(id, model, room_user_id) {
+
+	var roomUserId int
+	if isCreator == 0 {
+		roomUserId = utils.GenerateRandomId(1, 1000)
+	} else {
+		roomUserId = 0
+	}
+	if game.ConnectUserToheRoom(id, model, roomUserId) {
 		return context.Status(http.StatusOK).JSON(&fiber.Map{
 			"message": "OK",
 			"room":    game.GetRoomById(id),
-			"user_id": room_user_id,
+			"user_id": roomUserId,
 		})
 	}
 	return context.Status(http.StatusOK).JSON(&fiber.Map{

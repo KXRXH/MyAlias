@@ -22,8 +22,9 @@ type State struct {
 	TimeLeft int `json:"timeleft"`
 }
 type Room struct {
-	RoomId   int    `json:"room_id"`
-	Teams    []Team `json:"teams"`
-	UserList []User `json:"user_list"`
-	State    State  `json:"state"`
+	CreateorId int    `json:"creator_id"`
+	RoomId     int    `json:"room_id"`
+	Teams      []Team `json:"teams"`
+	UserList   []User `json:"user_list"`
+	State      State  `json:"state"`
 }

@@ -1,6 +1,6 @@
 import {Card, CardContent, IconButton} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import {CreateNewTeam} from '../client/client';
+import {CreateNewTeam} from '../client/rooms';
 
 export function NewTeamCard() {
   return (
@@ -10,7 +10,7 @@ export function NewTeamCard() {
         alignItems: 'center',
       }}>
         <CardContent>
-          <IconButton size="large" onClick={() => CreateNewTeam()}>
+          <IconButton size="large" onClick={CreateNewTeam}>
             <AddIcon/>
           </IconButton>
         </CardContent>
