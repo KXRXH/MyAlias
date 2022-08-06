@@ -1,30 +1,8 @@
 package game
 
-import (
-	"github.com/kxrxh/alias-backend/models"
-)
+import "github.com/kxrxh/alias-backend/models"
 
-var roomList = []models.Room{}
-
-func CreateNewRoom(room models.Room) {
-	roomList = append(roomList, room)
-}
-
-func DeleteRoomById(id int) {
-	newRoomList := []models.Room{}
-	for _, room := range roomList {
-		if room.RoomId != id {
-			newRoomList = append(newRoomList, room)
-		}
-	}
-	roomList = newRoomList
-}
-
-func GetAllRooms() []models.Room {
-	return roomList
-}
-
-func ConnectUserToheRoom(roomId int, user models.User, roomUserId int) bool {
+func ConnectUserToTheRoom(roomId int, user models.User, roomUserId int) bool {
 	room := GetRoomById(roomId)
 	if room != nil {
 		user.RoomId = roomId
@@ -53,10 +31,6 @@ func ChangePlayerName(user models.User) bool {
 	return false
 }
 
-func ChangeGameState(state models.Room) error {
-	return nil
-}
-
 func ChangePlayerStatus(roomId, playerId int) {
 	room := GetRoomById(roomId)
 	if room != nil {
@@ -64,11 +38,9 @@ func ChangePlayerStatus(roomId, playerId int) {
 	}
 }
 
-func CreateNewTeam(roomId int, teamId int) *models.Room {
+func ChangeUsersTeam(roomId, teamId, userId int) {
 	room := GetRoomById(roomId)
 	if room != nil {
-		room.AddNewTeamToRoom(teamId)
-		return room
+		room
 	}
-	return nil
 }

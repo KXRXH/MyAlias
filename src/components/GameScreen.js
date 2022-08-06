@@ -6,9 +6,14 @@ import {useEffect, useState} from 'react';
 import {INTERVAL_ROOM} from '../constants/misc';
 import {GetRoomData} from '../client/rooms';
 import {WarningAlert} from './InfoAlert';
+import {useParams} from 'react-router-dom';
+import {SpectatorsCard} from './SpectatorsCard';
 
-export function GameScreen({RoomID}) {
-  const [room, setRoomData] = useState({teams: []});
+// Route "/room/RoomID"
+export function GameScreen() {
+  // TODO: ADD RoomID verification
+  const {RoomID} = useParams();
+  const [room, setRoomData] = useState({teams: [], user_list: []});
   const [open, setOpen] = useState(false);
   // Updating room every second
   useEffect(() => {
@@ -50,7 +55,7 @@ export function GameScreen({RoomID}) {
           display: 'flex',
           justifyContent: 'center',
         }}>
-          <TeamCard TeamNumber={'Spectators'}/>
+          <SpectatorsCard TeamNumber={0} Users={room['user_list']}/>
         </Box>
       </Box>
   );

@@ -26,11 +26,20 @@ func (room *Room) ChangeUserStatus(userId int) {
 	}
 }
 
-func (room *Room) AddNewTeamToRoom(newTeamId int) {
+func (room *Room) AddNewTeamToRoom(teamId int) {
 	for _, team := range room.Teams {
-		if team.Id == newTeamId {
+		if team.Id == teamId {
 			return
 		}
 	}
-	room.Teams = append(room.Teams, Team{Id: newTeamId, UserList: []User{}})
+	room.Teams = append(room.Teams, Team{Id: teamId, UserList: []User{}})
+}
+
+func (room *Room) RemoveTeamFromRoom(teamId int) // TODO
+
+func (room *Room) ChangeUserTeam(userId, teamId int) {
+	var user *User
+	for _, userFromList := range room.UserList {
+		if (userFromList.UserId == userId)
+	}
 }

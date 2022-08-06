@@ -61,3 +61,14 @@ export async function ChangeStatus() {
     console.warn(err);
   }
 }
+
+export async function ChangeTeam(RoomID, UserID, TeamID) {
+  try {
+    const response = await fetch(
+        `${api_url}/user/change/team/${RoomID}/${UserID}/${TeamID}`,
+        {method: 'PUT'});
+    const responseJSON = await response.json()
+  } catch (err) {
+    console.warn(err);
+  }
+}

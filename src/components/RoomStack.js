@@ -10,7 +10,7 @@ export function RoomStack({rooms}) {
       }}>
         <Stack spacing={2}>
           {rooms ? rooms.map(obj => {
-            return <RoomCard key={obj['room_id']} RoomId={obj['room_id']}
+            return <RoomCard key={obj['room_id']} RoomID={obj['room_id']}
                              PlayerNumber={obj['user_list'].length}/>;
           }) : null}
         </Stack>

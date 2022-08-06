@@ -3,17 +3,20 @@ import Button from '@mui/material/Button';
 import {UpdateState} from '../utils/utils';
 import {useDispatch} from 'react-redux';
 import {ConnectToRoom} from '../client/user';
+import {useNavigate} from 'react-router-dom';
 
-export function RoomCard({RoomId, RoomName, PlayerNumber}) {
+export function RoomCard({RoomID, RoomName, PlayerNumber}) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleClickConnect = () => {
-    ConnectToRoom(RoomId, 0).then(() => UpdateState(dispatch));
+    ConnectToRoom(RoomID, 0).then(() => UpdateState(dispatch));
+    navigate(`/room/${RoomID}`, {replace: true});
   };
   return (
       <Card sx={{maxWidth: 421}}>
         <CardContent sx={{minWidth: 275}}>
           <Typography variant="h6" sx={{display: 'flex', marginRight: 'auto'}}>
-            Room id: {RoomId}</Typography>
+            Room id: {RoomID}</Typography>
           <Typography sx={{
             display: 'flex',
             marginRight: 'auto',

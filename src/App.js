@@ -15,6 +15,7 @@ import {RoomStack} from './components/RoomStack';
 import {GetSessionUser, UpdateState} from './utils/utils';
 import {GameScreen} from './components/GameScreen';
 import {INTERVAL_BACKGROUND, INTERVAL_MAIN} from './constants/misc';
+import {Route, Routes} from 'react-router-dom';
 
 HandShakeWithApi();
 
@@ -36,6 +37,7 @@ function App() {
     }, GetSessionUser()['room_id'] ? INTERVAL_BACKGROUND : INTERVAL_MAIN);
     return () => clearInterval(interval);
   }, [dispatch]);
+  // Setting up new user
   if (!sessionStorage.getItem('user')) {
     sessionStorage.setItem('user',
         JSON.stringify(
@@ -52,9 +54,13 @@ function App() {
         <CssBaseline/>
         <div className="App">
           <AliasAppBar state={GetSessionUser()['room_id']}/>
-          {GetSessionUser()['room_id'] ? <GameScreen
-              RoomID={GetSessionUser()['room_id']}/> : <RoomStack
-              rooms={mainState}/>}
+          <nav>
+          </nav>
+          <Routes>
+            <Route path="/" element={<RoomStack
+                rooms={mainState}/>}/>
+            <Route path="/room/:RoomID" element={<GameScreen/>}/>
+          </Routes>
           <AccountSettingDialog/>
         </div>
       </ThemeProvider>

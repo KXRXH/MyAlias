@@ -17,6 +17,7 @@ export async function GetAllRooms() {
 }
 
 export async function CreateNewRoom(dispatch) {
+  // TODO: FIX GETTING ID OF ROOM AFTER CREATING NEW ROOM
   try {
     const response = await fetch(`${api_url}/room/new`, {
       method: 'POST',

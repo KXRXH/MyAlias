@@ -11,13 +11,16 @@ import (
 	"github.com/kxrxh/alias-backend/utils"
 )
 
-/* User connect request handler.
+/*
+	User connect request handler.
+
 Params: [room_id: int].
-Json input: {
-	'id': int,
-	'nickname': string,
-	'team': int,
-	'room_id': int,}
+
+	Json input: {
+		'id': int,
+		'nickname': string,
+		'team': int,
+		'room_id': int,}
 */
 func ConnectHandler(context *fiber.Ctx) error {
 	id, err := strconv.Atoi(context.Params("room_id"))
@@ -45,7 +48,7 @@ func ConnectHandler(context *fiber.Ctx) error {
 	} else {
 		roomUserId = 0
 	}
-	if game.ConnectUserToheRoom(id, model, roomUserId) {
+	if game.ConnectUserToTheRoom(id, model, roomUserId) {
 		return context.Status(http.StatusOK).JSON(&fiber.Map{
 			"message": "OK",
 			"room":    game.GetRoomById(id),
@@ -57,12 +60,14 @@ func ConnectHandler(context *fiber.Ctx) error {
 	})
 }
 
-/* User disconnect request handler.
-Json input: {
-	'id': int,
-	'nickname': string,
-	'team': int,
-	'room_id': int,}
+/*
+User disconnect request handler.
+
+	Json input: {
+		'id': int,
+		'nickname': string,
+		'team': int,
+		'room_id': int,}
 */
 func DisconnectHandler(context *fiber.Ctx) error {
 	model := models.User{}
@@ -104,6 +109,25 @@ func UserReadyHandler(context *fiber.Ctx) error {
 }
 
 func ChangeTeamHandler(context *fiber.Ctx) error {
+	roomId, err := strconv.Atoi(context.Params("room_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	userId, err := strconv.Atoi(context.Params("user_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+	teamId, err := strconv.Atoi(context.Params("team_id"))
+	if err != nil {
+		return context.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": fmt.Sprintf("Error has occurred: %v", err.Error()),
+		})
+	}
+
 	return context.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "OK",
 	})
