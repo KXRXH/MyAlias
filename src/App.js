@@ -54,11 +54,8 @@ function App() {
         <CssBaseline/>
         <div className="App">
           <AliasAppBar state={GetSessionUser()['room_id']}/>
-          <nav>
-          </nav>
           <Routes>
-            <Route path="/" element={<RoomStack
-                rooms={mainState}/>}/>
+            <Route path="/" element={<RoomStack rooms={mainState}/>}/>
             <Route path="/room/:RoomID" element={<GameScreen/>}/>
           </Routes>
           <AccountSettingDialog/>
