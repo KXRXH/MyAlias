@@ -1,4 +1,6 @@
+# __WORK IN PROGRESS...__
 # Just a simple implementation of the game *Alias*
+
 
 ## **Unfortunately, right now app is deployed without backend server.**
 [*click*](https://alias-kxrxh.vercel.app/)
